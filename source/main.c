@@ -45,5 +45,5 @@ void scan_memory() {
 int main() {
   scan_memory();
   return 0; // this code will search for garbage in a certain amount of memory, or a stack and prints the memory adress 
-            // with his respective value (if there is a garbage forgotten by another program
+            // with his respective value (if there is a garbage forgotten by other program)
 }
