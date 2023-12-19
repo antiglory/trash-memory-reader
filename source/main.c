@@ -1,3 +1,4 @@
+// ------------------------- //
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -11,10 +12,10 @@ void sigsegv_handler(int signum) {
   longjmp(env, 1);
 }
 
-void check_memory() {
+void scan_memory() {
   signal(SIGSEGV, sigsegv_handler);
 
-  void *start = malloc(15 * 1024 * 1024);
+  void *start = malloc(15 * 1024 * 1024); // you can change the range of the memory which will be checked here
   void *end = (char *)start + (15 * 1024 * 1024);
 
   void *ptr = start;
@@ -42,6 +43,7 @@ void check_memory() {
 }
 
 int main() {
-  check_memory();
-  return 0;
+  scan_memory();
+  return 0; // this code will search for garbage in a certain amount of memory, or a stack and prints the memory adress 
+            // with his respective value (if there is a garbage forgotten by another program
 }
