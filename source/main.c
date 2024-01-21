@@ -1,4 +1,3 @@
-// ------------------------- //
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -18,21 +17,18 @@ void scan_memory() {
   void* start = malloc(15 * 1024 * 1024); // you can change the range of the memory which will be checked here
   void* end = (char *)start + (15 * 1024 * 1024);
 
-  void *ptr = start;
+  void* ptr = start;
   while (ptr < end) {
     if (setjmp(env) == 0) {
       volatile char c = *(char *)ptr;
+      printf("[+] %p        >>> %d\n", ptr, c); // prints the mem addr and the respective value (assigned to the mem addr)
     } else {
-      printf("[+] %p      >>> %c\n", ptr, *(char *)ptr);
       garbage_count++;
-      printf("[+] waiting client to close..\n");
-      getchar();
     }
     ptr = (char *)ptr + 1;
   }
 
   free(start);
-
   fflush(stdout);
 
   if (garbage_count == 0) {
@@ -44,6 +40,5 @@ void scan_memory() {
 
 int main() {
   scan_memory();
-  return 0; // this code will search for garbage in a certain amount of memory, or a stack and prints the memory adress 
-            // with his respective value (if there is a garbage forgotten by other program)
+  return 0;
 }
