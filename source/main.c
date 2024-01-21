@@ -15,8 +15,8 @@ void sigsegv_handler(int signum) {
 void scan_memory() {
   signal(SIGSEGV, sigsegv_handler);
 
-  void *start = malloc(15 * 1024 * 1024); // you can change the range of the memory which will be checked here
-  void *end = (char *)start + (15 * 1024 * 1024);
+  void* start = malloc(15 * 1024 * 1024); // you can change the range of the memory which will be checked here
+  void* end = (char *)start + (15 * 1024 * 1024);
 
   void *ptr = start;
   while (ptr < end) {
