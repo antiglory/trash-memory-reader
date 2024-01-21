@@ -1,4 +1,4 @@
-# trash-memory-reader
+# about
 a PoC of memory trash sensitive data reader from other programs written in C
 
 # attentions
@@ -7,4 +7,4 @@ a PoC of memory trash sensitive data reader from other programs written in C
 - limited scan range
 - limited method (trial and error)
 
-# for educational porpuses/contexts only
+! for educational porpuses/contexts only !
