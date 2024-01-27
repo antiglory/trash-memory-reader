@@ -3,7 +3,7 @@
 #include <signal.h>
 #include <setjmp.h>
 
-jmp_buf env;
+jmp_buf env; // global var, we'll need this to handle errors
 int garbage_count = 0;
 
 void sigsegv_handler(int signum) {
@@ -11,17 +11,17 @@ void sigsegv_handler(int signum) {
   longjmp(env, 1);
 }
 
-void scan_memory() {
+void scan() {
   signal(SIGSEGV, sigsegv_handler);
 
   void* start = malloc(15 * 1024 * 1024); // you can change the range of the memory which will be checked here
-  void* end = (char *)start + (15 * 1024 * 1024);
+  void* end = (char *)start + (15 * 1024 * 1024); // actually is signed 15MB
 
   void* ptr = start;
   while (ptr < end) {
     if (setjmp(env) == 0) {
       volatile char c = *(char *)ptr;
-      printf("[+] %p        >>> %d\n", ptr, c); // prints the mem addr and the respective value (assigned to the mem addr)
+      printf("[+] 00%-*p        >>> %d\n", ptr, c); // prints the mem addr and the respective value (assigned to the mem addr)
     } else {
       garbage_count++;
     }
@@ -32,13 +32,13 @@ void scan_memory() {
   fflush(stdout);
 
   if (garbage_count == 0) {
-    printf("[!] cannot find\n");
+    printf("[!] nothing yet\n");
     printf("waiting client to close..\n");
     getchar();
   }
 }
 
 int main() {
-  scan_memory();
+  scan();
   return 0;
 }
