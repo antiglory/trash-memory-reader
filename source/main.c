@@ -11,7 +11,7 @@ void sigsegv_handler(int signum) {
     longjmp(env, 1);
 }
 
-void query() {
+int main() {
     signal(SIGSEGV, sigsegv_handler);
   
     void* start = malloc(15 * 1024 * 1024); // you can change the range of the memory which will be checked here
