@@ -36,9 +36,6 @@ int main() {
         printf("waiting client to close..\n");
         getchar();
     }
-}
 
-int main() {
-    query();
     return 0;
 }
