@@ -22,13 +22,12 @@ int main() {
     void* ptr = start;
 
     while (ptr < end) {
-        if (setjmp(env) == 0) {
-            volatile char c = *(char*)ptr;
-            printf("[+] 00%-*p        : 0x%x\n", ptr, c); // prints the address and the respective value
-        } else
+        if (setjmp(env) == 0)
+            printf("[=] 00%-*p     : 0x%x\n", ptr, *(volatile char*)ptr); // prints the address and the respective value
+        else
             garbage_count++;
 
-        ptr = (char*)ptr + 1;
+        ptr++;
     }
   
     free(start);
