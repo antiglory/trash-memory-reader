@@ -14,7 +14,7 @@ void sigsegv_handler(int signum) {
     longjmp(env, 1);
 }
 
-int main() {
+int main(void) {
     signal(SIGSEGV, sigsegv_handler);
   
     void* start = malloc(RANGE);
