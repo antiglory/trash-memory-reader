@@ -3,6 +3,8 @@
 #include <signal.h>
 #include <setjmp.h>
 
+#define RANGE 32 * 1024 * 1024
+
 jmp_buf env; // global var, we'll need this to handle errors
 int garbage_count = 0;
 
@@ -14,18 +16,19 @@ void sigsegv_handler(int signum) {
 int main() {
     signal(SIGSEGV, sigsegv_handler);
   
-    void* start = malloc(15 * 1024 * 1024); // you can change the range of the memory which will be checked here
-    void* end = (char *)start + (15 * 1024 * 1024); // actually is signed 15MB
+    void* start = malloc(RANGE); // you can change the range of the memory which will be checked here
+    void* end = (char*)start + (RANGE); // actually is signed 32MB
   
     void* ptr = start;
+
     while (ptr < end) {
         if (setjmp(env) == 0) {
-            volatile char c = *(char *)ptr;
-            printf("[+] 00%-*p        >>> %d\n", ptr, c); // prints the mem addr and the respective value (assigned to the mem addr)
-        } else {
+            volatile char c = *(char*)ptr;
+            printf("[+] 00%-*p        : 0x%x\n", ptr, c); // prints the address and the respective value
+        } else
             garbage_count++;
-        }
-        ptr = (char *)ptr + 1;
+
+        ptr = (char*)ptr + 1;
     }
   
     free(start);
@@ -34,6 +37,7 @@ int main() {
     if (garbage_count == 0) {
         printf("[!] nothing yet\n");
         printf("waiting client to close..\n");
+
         getchar();
     }
 
