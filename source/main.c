@@ -3,7 +3,8 @@
 #include <signal.h>
 #include <setjmp.h>
 
-#define RANGE 32 * 1024 * 1024 // you can change the range of the memory which will be checked here
+// you can change the range of the memory which will be checked here
+#define RANGE 32 * 1024 * 1024
 
 jmp_buf env; // global var, we'll need this to handle errors
 int garbage_count = 0;
