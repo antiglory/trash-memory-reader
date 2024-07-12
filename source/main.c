@@ -3,7 +3,7 @@
 #include <signal.h>
 #include <setjmp.h>
 
-#define RANGE 32 * 1024 * 1024
+#define RANGE 32 * 1024 * 1024 // you can change the range of the memory which will be checked here
 
 jmp_buf env; // global var, we'll need this to handle errors
 int garbage_count = 0;
@@ -16,9 +16,8 @@ void sigsegv_handler(int signum) {
 int main() {
     signal(SIGSEGV, sigsegv_handler);
   
-    void* start = malloc(RANGE); // you can change the range of the memory which will be checked here
-    void* end = (char*)start + (RANGE); // actually is signed 32MB
-  
+    void* start = malloc(RANGE);
+    void* end = (char*)start + (RANGE);
     void* ptr = start;
 
     while (ptr < end) {
