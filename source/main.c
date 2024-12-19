@@ -20,8 +20,8 @@ int main(void)
     signal(SIGSEGV, sigsegv_handler);
   
     void* start = malloc(RANGE);
-    void* end = (char*)start + (RANGE);
-    void* ptr = start;
+    void* end   = (char*)start + (RANGE);
+    void* ptr   = start;
 
     while (ptr < end)
     {
